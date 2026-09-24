@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakanMie | Beragam Mie, Satu Kenikmatan</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Playfair Display (Serif) & Lato (Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            900: '#0b132b', // Deep Navy
+                            800: '#1a223a',
+                        },
+                        gold: {
+                            DEFAULT: '#d4af37', // Champagne Gold
+                            hover: '#bc9a2e'
+                        },
+                        charcoal: '#333333',
+                        softwhite: '#f9f9f9'
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Lato', 'sans-serif'],
+                    },
+                    transitionDuration: {
+                        '400': '400ms',
+                        '500': '500ms',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .text-shadow-elegant {
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Sticky Navigation Styling on Scroll */
+        .nav-scrolled {
+            background-color: #0b132b;
+            /* Deep Navy Solid */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+
+        /* Hide scrollbar for carousel */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Entry Animations */
+        @keyframes fade-in-up {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .sharp-edges {
+            border-radius: 0 !important;
+        }
+    </style>
+</head>
+
+<body class="font-sans text-charcoal bg-softwhite antialiased selection:bg-gold selection:text-white overflow-x-hidden">
+
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="#beranda"
+                    class="font-serif text-3xl font-bold tracking-widest text-white transition-colors duration-300">
+                    MAKANMIE<span class="text-gold">.</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-10 items-center">
+                    <a href="#beranda"
+                        class="text-white/90 hover:text-gold text-xs tracking-widest uppercase transition-colors duration-300">Beranda</a>
+                    <a href="#menu"
+                        class="text-white/90 hover:text-gold text-xs tracking-widest uppercase transition-colors duration-300">Menu</a>
+                    <a href="#tentang"
+                        class="text-white/90 hover:text-gold text-xs tracking-widest uppercase transition-colors duration-300">Tentang</a>
+                    <a href="#lokasi"
+                        class="text-white/90 hover:text-gold text-xs tracking-widest uppercase transition-colors duration-300">Lokasi</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn"
+                    class="md:hidden text-white focus:outline-none transition-colors duration-300">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu"
+            class="fixed inset-0 bg-navy-900 z-40 transform translate-x-full transition-transform duration-500 flex flex-col justify-center items-center">
+            <button id="close-menu-btn" class="absolute top-8 right-8 text-white text-3xl hover:text-gold transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex flex-col space-y-8 text-center">
+                <a href="#beranda"
+                    class="mobile-link font-serif text-3xl text-white hover:text-gold transition">Beranda</a>
+                <a href="#menu" class="mobile-link font-serif text-3xl text-white hover:text-gold transition">Menu</a>
+                <a href="#tentang"
+                    class="mobile-link font-serif text-3xl text-white hover:text-gold transition">Tentang</a>
+                <a href="#lokasi"
+                    class="mobile-link font-serif text-3xl text-white hover:text-gold transition">Lokasi</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="beranda"
+        class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-navy-900">
+        <!-- Background Image with Dark Overlay -->
+        <div class="absolute inset-0 z-0">
+            <!-- Image of dark aesthetic noodles/cooking (placeholder for hero) -->
+            <img src="https://images.unsplash.com/photo-1552611052-33e04de081de?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+                alt="Hidangan Mie Estetik" class="w-full h-full object-cover opacity-50">
+            <div class="absolute inset-0 bg-gradient-to-b from-navy-900/90 via-navy-900/60 to-navy-900"></div>
+        </div>
+
+        <!-- Hero Content -->
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto mt-20">
+            <span
+                class="block text-gold tracking-[0.3em] text-xs md:text-sm uppercase mb-6 opacity-0 translate-y-4 animate-[fade-in-up_1s_ease-out_forwards]">
+                MakanMie — Beragam Mie, Satu Kenikmatan
+            </span>
+            <h1
+                class="font-serif text-4xl md:text-6xl text-white leading-tight mb-8 opacity-0 translate-y-4 animate-[fade-in-up_1s_ease-out_0.3s_forwards] text-shadow-elegant">
+                Kenikmatan Autentik <br /> <span class="italic font-light text-gold">Dalam Setiap Suapan</span>
+            </h1>
+            <p
+                class="text-gray-300 font-light text-base md:text-lg mb-12 max-w-2xl mx-auto opacity-0 translate-y-4 animate-[fade-in-up_1s_ease-out_0.6s_forwards] leading-relaxed">
+                Selamat datang di MakanMie, tempat menikmati berbagai sajian mie dengan cita rasa gurih, lezat, dan
+                menggugah selera. Dengan harga yang terjangkau, MakanMie siap menemani waktu makanmu.
+            </p>
+            <div
+                class="flex flex-col sm:flex-row gap-4 justify-center items-center opacity-0 translate-y-4 animate-[fade-in-up_1s_ease-out_0.9s_forwards]">
+                <a href="#lokasi"
+                    class="sharp-edges inline-block bg-gold border border-gold text-navy-900 hover:bg-transparent hover:text-gold px-10 py-4 uppercase tracking-widest text-xs font-bold transition-all duration-300 w-full sm:w-auto">
+                    Pesan Sekarang
+                </a>
+                <a href="#menu"
+                    class="sharp-edges inline-block bg-transparent border border-white text-white hover:bg-white hover:text-navy-900 px-10 py-4 uppercase tracking-widest text-xs font-bold transition-all duration-300 w-full sm:w-auto">
+                    Lihat Menu
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="py-24 md:py-32 bg-white overflow-hidden relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+            <!-- Section Header & Controls -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+                <div>
+                    <span class="text-gold tracking-[0.2em] uppercase text-xs font-bold block mb-4">Hidangan
+                        Pilihan</span>
+                    <h2 class="font-serif text-4xl md:text-5xl text-navy-900">Menu MakanMie</h2>
+                </div>
+
+                <!-- Carousel Arrow Buttons -->
+                <div class="flex gap-4">
+                    <button id="btn-prev"
+                        class="sharp-edges w-12 h-12 border border-gray-300 flex items-center justify-center text-navy-900 hover:border-gold hover:bg-gold hover:text-white transition duration-300">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <button id="btn-next"
+                        class="sharp-edges w-12 h-12 border border-gray-300 flex items-center justify-center text-navy-900 hover:border-gold hover:bg-gold hover:text-white transition duration-300">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Carousel Track -->
+            <div id="menu-carousel"
+                class="flex gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar scroll-smooth pb-8 -mx-6 px-6 lg:-mx-12 lg:px-12">
+
+                <!-- Menu Card 1: Ifumie -->
+                <div
+                    class="snap-start flex-shrink-0 w-[85vw] md:w-[380px] border border-gray-200 bg-white group hover:border-gold/50 transition-colors duration-500 sharp-edges flex flex-col h-full relative">
+                    <div class="overflow-hidden h-64 w-full relative">
+                        <img src="ifumie mirip.png" alt="Ifumie"
+                            class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 transform group-hover:scale-105">
+                        <div
+                            class="absolute bottom-4 right-4 bg-navy-900 text-gold px-5 py-2 text-sm font-serif border border-gold sharp-edges shadow-lg z-10">
+                            Rp15.000
+                        </div>
+                    </div>
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h3 class="font-serif text-2xl text-navy-900 mb-3 group-hover:text-gold transition-colors">
+                            Ifumie</h3>
+                        <p class="text-sm text-gray-500 font-light leading-relaxed mb-4 flex-grow">
+                            Ifumie dengan racikan bumbu rempah khas yang gurih dan nikmat, dilengkapi bakso, telur
+                            orak-arik, sayur sawi, serta topping ayam suwir yang lezat. Perpaduan tekstur dan cita rasa
+                            yang lengkap dalam satu hidangan.
+                        </p>
+                        <p class="text-xs text-gray-400 italic mb-6">
+                            Opsi: Ekstra Telur, Ekstra Ayam, Level Pedas
+                        </p>
+                        <a href="https://wa.me/6285765441942" target="_blank"
+                            class="sharp-edges w-full block text-center border border-navy-900 text-navy-900 hover:bg-navy-900 hover:text-white py-3 uppercase tracking-widest text-xs font-bold transition-all duration-300 mt-auto">
+                            Pesan Sekarang
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Menu Card 2: Mie Tiaw -->
+                <div
+                    class="snap-start flex-shrink-0 w-[85vw] md:w-[380px] border border-gray-200 bg-white group hover:border-gold/50 transition-colors duration-500 sharp-edges flex flex-col h-full relative">
+                    <div class="overflow-hidden h-64 w-full relative">
+                        <img src="mie tiaw.png" alt="Mie Tiaw"
+                            class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 transform group-hover:scale-105">
+                        <div
+                            class="absolute bottom-4 right-4 bg-navy-900 text-gold px-5 py-2 text-sm font-serif border border-gold sharp-edges shadow-lg z-10">
+                            Rp15.000
+                        </div>
+                    </div>
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h3 class="font-serif text-2xl text-navy-900 mb-3 group-hover:text-gold transition-colors">Mie
+                            Tiaw</h3>
+                        <p class="text-sm text-gray-500 font-light leading-relaxed mb-4 flex-grow">
+                            Mie tiaw dengan bumbu rempah khas yang gurih dan menggugah selera, dilengkapi bakso, telur
+                            orak-arik, sayur sawi, serta topping ayam suwir. Mie yang lembut dengan perpaduan topping
+                            yang melengkapi setiap suapan.
+                        </p>
+                        <p class="text-xs text-gray-400 italic mb-6">
+                            Opsi: Ekstra Telur, Ekstra Ayam, Level Pedas
+                        </p>
+                        <a href="https://wa.me/6285765441942" target="_blank"
+                            class="sharp-edges w-full block text-center border border-navy-900 text-navy-900 hover:bg-navy-900 hover:text-white py-3 uppercase tracking-widest text-xs font-bold transition-all duration-300 mt-auto">
+                            Pesan Sekarang
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Menu Card 3: Mie Hun -->
+                <div
+                    class="snap-start flex-shrink-0 w-[85vw] md:w-[380px] border border-gray-200 bg-white group hover:border-gold/50 transition-colors duration-500 sharp-edges flex flex-col h-full relative">
+                    <div class="overflow-hidden h-64 w-full relative">
+                        <img src="mie hun.png" alt="Mi Hun"
+                            class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 transform group-hover:scale-105">
+                        <div
+                            class="absolute bottom-4 right-4 bg-navy-900 text-gold px-5 py-2 text-sm font-serif border border-gold sharp-edges shadow-lg z-10">
+                            Rp15.000
+                        </div>
+                    </div>
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h3 class="font-serif text-2xl text-navy-900 mb-3 group-hover:text-gold transition-colors">Mi
+                            Hun</h3>
+                        <p class="text-sm text-gray-500 font-light leading-relaxed mb-4 flex-grow">
+                            Mi hun dengan racikan bumbu rempah khas yang kaya rasa, dipadukan dengan bakso, telur
+                            orak-arik, sayur sawi, serta topping ayam suwir. Tekstur mi yang lembut berpadu dengan
+                            topping gurih untuk menciptakan hidangan yang nikmat di setiap suapan.
+                        </p>
+                        <p class="text-xs text-gray-400 italic mb-6">
+                            Opsi: Ekstra Telur, Ekstra Ayam, Level Pedas
+                        </p>
+                        <a href="https://wa.me/6285765441942" target="_blank"
+                            class="sharp-edges w-full block text-center border border-navy-900 text-navy-900 hover:bg-navy-900 hover:text-white py-3 uppercase tracking-widest text-xs font-bold transition-all duration-300 mt-auto">
+                            Pesan Sekarang
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Menu Card 4: Indomie Goreng -->
+                <div
+                    class="snap-start flex-shrink-0 w-[85vw] md:w-[380px] border border-gray-200 bg-white group hover:border-gold/50 transition-colors duration-500 sharp-edges flex flex-col h-full relative">
+                    <div class="overflow-hidden h-64 w-full relative">
+                        <img src="indomie.png" alt="Indomie Goreng"
+                            class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 transform group-hover:scale-105">
+                        <div
+                            class="absolute bottom-4 right-4 bg-navy-900 text-gold px-5 py-2 text-sm font-serif border border-gold sharp-edges shadow-lg z-10">
+                            Rp15.000
+                        </div>
+                    </div>
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h3 class="font-serif text-2xl text-navy-900 mb-3 group-hover:text-gold transition-colors">
+                            Indomie Goreng</h3>
+                        <p class="text-sm text-gray-500 font-light leading-relaxed mb-4 flex-grow">
+                            Indomie goreng khas dengan racikan bumbu rempah tambahan yang gurih, dilengkapi bakso, telur
+                            orak-arik, sayur sawi, serta topping ayam suwir yang lezat dan menggugah selera.
+                        </p>
+                        <p class="text-xs text-gray-400 italic mb-6">
+                            Opsi: Ekstra Telur, Ekstra Ayam, Level Pedas
+                        </p>
+                        <a href="https://wa.me/6285765441942" target="_blank"
+                            class="sharp-edges w-full block text-center border border-navy-900 text-navy-900 hover:bg-navy-900 hover:text-white py-3 uppercase tracking-widest text-xs font-bold transition-all duration-300 mt-auto">
+                            Pesan Sekarang
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="tentang" class="py-24 md:py-32 bg-softwhite relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+
+                <!-- Text Content -->
+                <div class="order-2 md:order-1 pt-12 md:pt-0">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="h-[1px] w-12 bg-gold"></div>
+                        <span class="text-gold tracking-[0.2em] uppercase text-xs font-bold">Filosofi Rasa</span>
+                    </div>
+                    <h2 class="font-serif text-4xl md:text-5xl text-navy-900 mb-8 leading-tight">
+                        Tentang <br><span class="italic text-gold">MakanMie.</span>
+                    </h2>
+                    <p class="text-gray-600 font-light leading-relaxed mb-6 text-lg">
+                        Selamat datang di MakanMie, tempat menikmati berbagai sajian mie dengan cita rasa gurih, lezat,
+                        dan menggugah selera. MakanMie menghadirkan pilihan Ifumie, Mi Hun, dan Mie Tiaw yang diolah
+                        dengan racikan bumbu rempah khas serta dilengkapi berbagai topping pilihan.
+                    </p>
+                    <p class="text-gray-600 font-light leading-relaxed">
+                        Dengan harga yang terjangkau, MakanMie siap menemani waktu makanmu, baik untuk makan sendiri
+                        maupun bersama orang-orang terdekat.
+                    </p>
+                </div>
+
+                <!-- Asymmetrical Image Layout -->
+                <div class="order-1 md:order-2 relative h-[500px]">
+                    <img src="tentang.png" alt="Rempah-rempah"
+                        class="sharp-edges w-4/5 h-[400px] object-cover absolute top-0 right-0 filter grayscale hover:grayscale-0 transition duration-700 z-10">
+
+                    <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        alt="Proses Masak"
+                        class="sharp-edges w-3/5 h-[300px] object-cover absolute bottom-0 left-0 border-[12px] border-softwhite z-20 shadow-xl filter grayscale hover:grayscale-0 transition duration-700">
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="lokasi" class="py-24 bg-navy-900 text-white border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+
+                <!-- Location Info & CTA -->
+                <div class="flex flex-col justify-center">
+                    <span class="text-gold tracking-[0.2em] uppercase text-xs font-bold block mb-4">Lokasi &
+                        Pemesanan</span>
+                    <h2 class="font-serif text-4xl md:text-5xl mb-10 text-white">Kunjungi Kami</h2>
+
+                    <div class="space-y-8 mb-12">
+                        <div class="flex items-start gap-5">
+                            <i class="fa-solid fa-location-dot text-gold text-xl mt-1 w-6 text-center"></i>
+                            <div>
+                                <h4 class="font-bold tracking-widest uppercase text-sm mb-2 text-white">Alamat</h4>
+                                <p class="text-gray-400 font-light text-base leading-relaxed">Jl. Bunga Sakura, Tanjung
+                                    Selamat, Medan Tuntungan, Medan City, North Sumatra 20135</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-5">
+                            <i class="fa-solid fa-clock text-gold text-xl mt-1 w-6 text-center"></i>
+                            <div>
+                                <h4 class="font-bold tracking-widest uppercase text-sm mb-2 text-white">Jam Operasional
+                                </h4>
+                                <p class="text-gray-400 font-light text-base leading-relaxed">
+                                    Senin–Sabtu: 10.00–22.00 WIB <br>
+                                    Minggu: 12.00–22.00 WIB
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-5">
+                            <i class="fa-solid fa-store text-gold text-xl mt-1 w-6 text-center"></i>
+                            <div>
+                                <h4 class="font-bold tracking-widest uppercase text-sm mb-2 text-white">Layanan</h4>
+                                <p class="text-gray-400 font-light text-base leading-relaxed">
+                                    <span class="text-gold italic">Tersedia Dine-in & Takeaway</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WhatsApp CTA -->
+                    <a href="https://wa.me/6285765441942" target="_blank"
+                        class="sharp-edges inline-flex items-center justify-center gap-3 bg-gold border border-gold text-navy-900 hover:bg-transparent hover:text-gold px-8 py-5 uppercase tracking-widest text-sm font-bold transition-all duration-300 group">
+                        PESAN SEKARANG
+                        <i class="fa-brands fa-whatsapp text-lg group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+
+                <!-- Google Maps Embedded iframe -->
+                <div
+                    class="h-[400px] lg:h-auto min-h-[400px] w-full border border-gray-700 p-2 bg-navy-800 sharp-edges">
+                    <iframe
+                        src="https://maps.google.com/maps?q=Jl.+Bunga+Sakura,+Tanjung+Selamat,+Medan+Tuntungan,+Medan+City,+North+Sumatra+20135&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                        class="w-full h-full grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-700 sharp-edges"
+                        style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-navy-900 text-gray-400 py-12">
+        <div
+            class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-8 text-sm">
+
+            <div class="text-center md:text-left">
+                <div class="font-serif text-2xl text-white tracking-widest mb-2">
+                    MAKANMIE<span class="text-gold">.</span>
+                </div>
+                <p class="font-light">Jl. Bunga Sakura, Tanjung Selamat, Medan Tuntungan | Buka 10.00–22.00</p>
+            </div>
+
+            <div class="flex gap-6 items-center">
+                <a href="https://wa.me/6285765441942" target="_blank"
+                    class="w-10 h-10 border border-gray-600 flex items-center justify-center hover:border-gold hover:text-gold transition duration-300 sharp-edges">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                </a>
+                <a href="#"
+                    class="w-10 h-10 border border-gray-600 flex items-center justify-center hover:border-gold hover:text-gold transition duration-300 sharp-edges">
+                    <i class="fa-brands fa-instagram text-lg"></i>
+                </a>
+                <a href="#"
+                    class="w-10 h-10 border border-gray-600 flex items-center justify-center hover:border-gold hover:text-gold transition duration-300 sharp-edges">
+                    <i class="fa-brands fa-tiktok text-lg"></i>
+                </a>
+            </div>
+
+            <div class="text-center md:text-right font-light text-xs">
+                <p>&copy; 2026 MakanMie. All rights reserved.</p>
+                <div class="mt-3 inline-flex items-center gap-2 px-3 py-1.5 bg-navy-800 text-gold border border-gold/40 text-xs font-mono sharp-edges">
+                    <i class="fa-solid fa-eye text-gold"></i>
+                    <span id="visitor-count" class="font-bold">...</span> Total Pengunjung
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Navbar Solid on Scroll Effect
+            const navbar = document.getElementById('navbar');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('nav-scrolled');
+                    navbar.classList.remove('py-6');
+                } else {
+                    navbar.classList.remove('nav-scrolled');
+                    navbar.classList.add('py-6');
+                }
+            });
+
+            // Mobile Menu Toggle
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const closeBtn = document.getElementById('close-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            function toggleMenu() {
+                const isClosed = mobileMenu.classList.contains('translate-x-full');
+                if (isClosed) {
+                    mobileMenu.classList.remove('translate-x-full');
+                    document.body.style.overflow = 'hidden'; // Prevent background scroll
+                } else {
+                    mobileMenu.classList.add('translate-x-full');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+
+            mobileBtn.addEventListener('click', toggleMenu);
+            closeBtn.addEventListener('click', toggleMenu);
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+
+            // Menu Carousel Logic
+            const carousel = document.getElementById('menu-carousel');
+            const btnPrev = document.getElementById('btn-prev');
+            const btnNext = document.getElementById('btn-next');
+
+            // Calculate scroll amount
+            const getScrollAmount = () => {
+                const card = carousel.querySelector('div');
+                // card width + gap (which is roughly 2rem or 32px)
+                return card.offsetWidth + 32;
+            };
+
+            btnNext.addEventListener('click', () => {
+                carousel.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+            });
+
+            btnPrev.addEventListener('click', () => {
+                carousel.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+            });
+
+            // Live Visitor Counter API (DWYL Hits)
+            const countEl = document.getElementById('visitor-count');
+            if (countEl) {
+                fetch('https://hits.dwyl.com/makanmie/medan.json')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data && data.message) {
+                            countEl.innerText = Number(data.message).toLocaleString();
+                        } else {
+                            countEl.innerText = '1';
+                        }
+                    })
+                    .catch(() => {
+                        countEl.innerText = '1';
+                    });
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MakanMie Admin | Analytics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="supabase-config.js"></script>
+  <style>body{font-family:Inter,system-ui,sans-serif}.gold{color:#d4af37}.bg-gold{background:#d4af37}.card{background:#fff;border:1px solid #e5e7eb}</style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+  <div id="loginView" class="min-h-screen flex items-center justify-center p-6 bg-slate-950">
+    <div class="w-full max-w-md bg-white p-8 shadow-2xl">
+      <div class="text-center mb-8"><div class="text-3xl font-serif font-bold tracking-widest">MAKANMIE<span class="gold">.</span></div><p class="text-slate-500 mt-2">Admin Dashboard</p></div>
+      <form id="loginForm" class="space-y-5">
+        <div><label class="block text-sm font-semibold mb-2">Email</label><input id="email" type="email" required class="w-full border border-slate-300 px-4 py-3 outline-none focus:border-amber-500"></div>
+        <div><label class="block text-sm font-semibold mb-2">Password</label><input id="password" type="password" required class="w-full border border-slate-300 px-4 py-3 outline-none focus:border-amber-500"></div>
+        <button class="w-full bg-gold py-3 font-bold text-slate-950">MASUK</button>
+        <p id="loginError" class="text-sm text-red-600 hidden"></p>
+      </form>
+    </div>
+  </div>
+
+  <div id="dashboardView" class="hidden">
+    <header class="bg-slate-950 text-white sticky top-0 z-20"><div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center"><div><span class="font-serif text-xl tracking-widest">MAKANMIE<span class="gold">.</span></span><span class="ml-3 text-xs text-slate-400">ADMIN</span></div><div class="flex items-center gap-4"><a href="index.html" class="text-sm text-slate-300 hover:text-white">Lihat Website</a><button id="logoutBtn" class="text-sm border border-slate-600 px-4 py-2 hover:border-amber-400">Keluar</button></div></div></header>
+    <main class="max-w-7xl mx-auto px-6 py-8">
+      <div class="mb-8"><h1 class="text-3xl font-bold">Dashboard Pengunjung</h1><p class="text-slate-500 mt-1">Pantau traffic dan interaksi website MakanMie.</p></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+        <div class="card p-6"><p class="text-sm text-slate-500">Total kunjungan</p><p id="totalViews" class="text-3xl font-bold mt-2">—</p></div>
+        <div class="card p-6"><p class="text-sm text-slate-500">Pengunjung unik</p><p id="uniqueVisitors" class="text-3xl font-bold mt-2">—</p></div>
+        <div class="card p-6"><p class="text-sm text-slate-500">Kunjungan hari ini</p><p id="todayViews" class="text-3xl font-bold mt-2">—</p></div>
+        <div class="card p-6"><p class="text-sm text-slate-500">Klik WhatsApp</p><p id="waClicks" class="text-3xl font-bold mt-2">—</p></div>
+      </div>
+      <div class="card p-6 mb-8"><div class="flex justify-between items-center mb-5"><div><h2 class="text-xl font-bold">Pengunjung 7 Hari Terakhir</h2><p class="text-sm text-slate-500">Jumlah page view per hari</p></div><button id="refreshBtn" class="text-sm border px-4 py-2 hover:border-amber-500">Refresh</button></div><div class="h-80"><canvas id="visitorChart"></canvas></div></div>
+      <div class="grid lg:grid-cols-2 gap-8">
+        <div class="card p-6"><h2 class="text-xl font-bold mb-5">Menu Terpopuler</h2><div id="menuStats" class="space-y-4"><p class="text-slate-400">Memuat...</p></div></div>
+        <div class="card p-6"><h2 class="text-xl font-bold mb-5">Aktivitas Terbaru</h2><div id="recentEvents" class="space-y-3 max-h-80 overflow-auto"><p class="text-slate-400">Memuat...</p></div></div>
+      </div>
+      <p id="configWarning" class="hidden mt-8 p-4 bg-amber-50 border border-amber-200 text-amber-800 text-sm">Supabase belum dikonfigurasi. Isi <b>supabase-config.js</b> terlebih dahulu.</p>
+    </main>
+  </div>
+<script>
+const loginView=document.getElementById('loginView'),dashboardView=document.getElementById('dashboardView'),loginError=document.getElementById('loginError');
+let chart;
+function configured(){return !!window.makanmieSupabase}
+async function showDashboard(){loginView.classList.add('hidden');dashboardView.classList.remove('hidden');await loadDashboard()}
+async function init(){
+  if(!configured()){document.getElementById('configWarning').classList.remove('hidden');return}
+  const {data:{session}}=await window.makanmieSupabase.auth.getSession(); if(session) showDashboard();
+}
+document.getElementById('loginForm').addEventListener('submit',async e=>{e.preventDefault();loginError.classList.add('hidden');if(!configured()){loginError.textContent='Supabase belum dikonfigurasi.';loginError.classList.remove('hidden');return}const {error}=await window.makanmieSupabase.auth.signInWithPassword({email:email.value,password:password.value});if(error){loginError.textContent=error.message;loginError.classList.remove('hidden');return}showDashboard()});
+document.getElementById('logoutBtn').onclick=async()=>{await window.makanmieSupabase.auth.signOut();location.reload()};
+document.getElementById('refreshBtn').onclick=loadDashboard;
+function dayKey(d){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jakarta',year:'numeric',month:'2-digit',day:'2-digit'}).format(d)}
+function fmt(n){return Number(n||0).toLocaleString('id-ID')}
+async function loadDashboard(){if(!configured())return;const since=new Date(Date.now()-8*24*60*60*1000).toISOString();const {data,error}=await window.makanmieSupabase.from('analytics_events').select('*').gte('created_at',since).order('created_at',{ascending:false});if(error){alert('Gagal mengambil data: '+error.message);return}const all=data||[];const views=all.filter(x=>x.event_type==='page_view');const wa=all.filter(x=>x.event_type==='whatsapp_click');const unique=new Set(views.map(x=>x.visitor_id));document.getElementById('totalViews').textContent=fmt(views.length);document.getElementById('uniqueVisitors').textContent=fmt(unique.size);document.getElementById('todayViews').textContent=fmt(views.filter(x=>dayKey(new Date(x.created_at))===dayKey(new Date())).length);document.getElementById('waClicks').textContent=fmt(wa.length);renderChart(all);renderMenus(all);renderRecent(all)}
+function renderChart(all){const labels=[];const vals=[];for(let i=6;i>=0;i--){const d=new Date(Date.now()-i*86400000);const k=dayKey(d);labels.push(new Intl.DateTimeFormat('id-ID',{weekday:'short',day:'numeric',month:'short',timeZone:'Asia/Jakarta'}).format(d));vals.push(all.filter(x=>x.event_type==='page_view'&&dayKey(new Date(x.created_at))===k).length)}if(chart)chart.destroy();chart=new Chart(document.getElementById('visitorChart'),{type:'line',data:{labels,datasets:[{label:'Pengunjung',data:vals,tension:.35,fill:true}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{precision:0}}}}})}
+function renderMenus(all){const counts={};all.filter(x=>x.event_type==='menu_click').forEach(x=>{const m=x.metadata?.menu||'Menu';counts[m]=(counts[m]||0)+1});const rows=Object.entries(counts).sort((a,b)=>b[1]-a[1]);document.getElementById('menuStats').innerHTML=rows.length?rows.map(([m,n])=>`<div class="flex justify-between border-b pb-3"><span>${m}</span><b>${fmt(n)}</b></div>`).join(''):'<p class="text-slate-400">Belum ada klik menu.</p>'}
+function renderRecent(all){const rows=all.slice(0,12);document.getElementById('recentEvents').innerHTML=rows.length?rows.map(x=>{const label=x.event_type==='page_view'?'Melihat halaman':x.event_type==='whatsapp_click'?'Klik WhatsApp':'Klik menu';return `<div class="flex justify-between gap-3 border-b pb-2"><span class="text-sm">${label}${x.metadata?.menu?' — '+x.metadata.menu:''}</span><span class="text-xs text-slate-400 whitespace-nowrap">${new Date(x.created_at).toLocaleString('id-ID')}</span></div>`}).join(''):'<p class="text-slate-400">Belum ada aktivitas.</p>'}
+init();
+</script>
+</body></html>
